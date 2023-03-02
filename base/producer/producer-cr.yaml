@@ -11,3 +11,10 @@ rules:
   resources:
   - subjectaccessreviews
   verbs: ["create"]
+- apiGroups: ["security.openshift.io"]
+  resourceNames:
+    - anyuid
+  resources:
+    - securitycontextconstraints
+  verbs:
+    - use
