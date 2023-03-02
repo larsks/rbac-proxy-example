@@ -2,7 +2,7 @@ This repository contains two examples of using [`kube-rbac-proxy`][krp] to prote
 
 [krp]: https://github.com/brancz/kube-rbac-proxy
 
-In both examples, a `producer` service offers an HTTP endpoint (`http://producer/example`). A `consumer` periodically reads from this endpoint. We use `kube-rbac-proxy` to authenticate the consumer and grant access to the resource.
+In both examples, a `producer` service offers an HTTP endpoint (`http://producer/allowed`). A `consumer` attempts to read from this endpoint. We use `kube-rbac-proxy` to authenticate the consumer and grant access to the resource.
 
 ## Viewing the manifests
 
@@ -21,7 +21,7 @@ This repository sets up an internal certificate authority using [cert-manager][]
 
 ## Authentication
 
-In both examples, we bind a security principal to a ClusterRole that [grants access to the `/example` HTTP endpoint][consumer-cr].
+In both examples, we bind a security principal to a ClusterRole that [grants access to the `/allowed` HTTP endpoint][consumer-cr].
 
 [consumer-cr]: base/consumer/consumer-cr.yaml
 

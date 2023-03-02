@@ -10,5 +10,5 @@ rules:
     - securitycontextconstraints
   verbs:
     - use
-- nonResourceURLs: ["/example"]
+- nonResourceURLs: ["/allowed"]
   verbs: ["get"]

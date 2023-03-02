@@ -8,12 +8,13 @@ spec:
     spec:
       serviceAccountName: consumer
       automountServiceAccountToken: true
+      terminationGracePeriodSeconds: 0
       containers:
       - name: consumer
         image: docker.io/alpine:latest
         env:
           - name: HTTP_ENDPOINT
-            value: http://producer:8080/example
+            value: http://producer:8080
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -31,27 +32,31 @@ spec:
               token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
             fi
 
-            echo "=== fetch /example ==="
+            echo "=== fetch /allowed ==="
 
             until curl -isf \
                 ${HTTP_CACERT:+--cacert $HTTP_CACERT} \
                 ${HTTP_CERT:+--cert $HTTP_CERT} \
                 ${HTTP_KEY:+--key $HTTP_KEY} \
                 ${token:+-H "Authorization: Bearer $token"} \
-                "$HTTP_ENDPOINT"; do
+                "$HTTP_ENDPOINT"/allowed; do
               sleep 5
             done
 
-            if [ -n "$HTTP_ENDPOINT_FORBIDDEN" ]; then
-              echo "=== fetch /forbidden ==="
+            echo "=== fetch /forbidden ==="
 
-              curl -is \
-                  ${HTTP_CACERT:+--cacert $HTTP_CACERT} \
-                  ${HTTP_CERT:+--cert $HTTP_CERT} \
-                  ${HTTP_KEY:+--key $HTTP_KEY} \
-                  ${token:+-H "Authorization: Bearer $token"} \
-                  "$HTTP_ENDPOINT_FORBIDDEN"
-            fi
+            curl -is \
+                ${HTTP_CACERT:+--cacert $HTTP_CACERT} \
+                ${HTTP_CERT:+--cert $HTTP_CERT} \
+                ${HTTP_KEY:+--key $HTTP_KEY} \
+                ${token:+-H "Authorization: Bearer $token"} \
+                "$HTTP_ENDPOINT"/forbidden
+
+            echo "=== fetch /noauth ==="
+
+            curl -is \
+                ${HTTP_CACERT:+--cacert $HTTP_CACERT} \
+                "$HTTP_ENDPOINT"/noauth
 
             echo "=== all done ==="
 

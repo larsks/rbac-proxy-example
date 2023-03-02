@@ -17,9 +17,7 @@ spec:
             mountPath: /cert
         env:
           - name: HTTP_ENDPOINT
-            value: https://producer:8443/example
-          - name: HTTP_ENDPOINT_FORBIDDEN
-            value: https://producer:8443/forbidden
+            value: https://producer:8443
           - name: HTTP_CACERT
             value: /cert/ca.crt
           - name: HTTP_CERT

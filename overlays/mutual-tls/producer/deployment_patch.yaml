@@ -18,6 +18,7 @@ spec:
           - --client-ca-file=/cert/ca.crt
           - --tls-cert-file=/cert/tls.crt
           - --tls-private-key-file=/cert/tls.key
+          - --ignore-paths=/noauth
         image: quay.io/brancz/kube-rbac-proxy:v0.14.0
         volumeMounts:
           - name: producer-cert
