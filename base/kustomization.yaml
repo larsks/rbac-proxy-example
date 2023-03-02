@@ -7,5 +7,3 @@ resources:
 - namespace.yaml
 - producer/
 - consumer/
-- selfsigned-ca
-- internal-ca
