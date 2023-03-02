@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+secretGenerator:
+  - name: consumer-cert
+    type: kubernetes.io/tls
+    files:
+      - tls.crt=consumer.crt
+      - tls.key=consumer.key
+  - name: producer-cert
+    type: kubernetes.io/tls
+    files:
+      - tls.crt=producer.crt
+      - tls.key=producer.key

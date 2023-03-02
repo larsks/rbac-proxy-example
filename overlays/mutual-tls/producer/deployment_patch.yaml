@@ -5,25 +5,22 @@ metadata:
 spec:
   template:
     spec:
-      volumes:
-        - name: producer-cert
-          secret:
-            secretName: producer-cert
-
       containers:
       - name: kube-rbac-proxy
         args:
           - --auth-header-fields-enabled
           - --secure-listen-address=0.0.0.0:8443
           - --upstream=http://127.0.0.1:8080/
-          - --client-ca-file=/cert/ca.crt
-          - --tls-cert-file=/cert/tls.crt
-          - --tls-private-key-file=/cert/tls.key
+          - --client-ca-file=/cert/consumer/tls.crt
+          - --tls-cert-file=/cert/producer/tls.crt
+          - --tls-private-key-file=/cert/producer/tls.key
           - --ignore-paths=/noauth
         image: quay.io/brancz/kube-rbac-proxy:v0.14.0
         volumeMounts:
+          - name: consumer-cert
+            mountPath: /cert/consumer
           - name: producer-cert
-            mountPath: /cert
+            mountPath: /cert/producer
         ports:
           - containerPort: 8443
             name: https

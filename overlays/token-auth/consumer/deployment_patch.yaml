@@ -5,22 +5,12 @@ metadata:
 spec:
   template:
     spec:
-      volumes:
-        - name: consumer-cert
-          secret:
-            secretName: consumer-cert
-
       containers:
       - name: consumer
-        volumeMounts:
-          - name: consumer-cert
-            mountPath: /cert
         env:
           - name: HTTP_ENDPOINT
             value: https://producer:8443
-          - name: HTTP_ENDPOINT_FORBIDDEN
-            value: https://producer:8443/forbidden
           - name: HTTP_CACERT
-            value: /cert/ca.crt
+            value: /cert/producer/tls.crt
           - name: HTTP_TOKEN
             value: /var/run/secrets/kubernetes.io/serviceaccount/token

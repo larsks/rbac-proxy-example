@@ -8,6 +8,14 @@ spec:
     spec:
       serviceAccountName: producer
       automountServiceAccountToken: true
+      volumes:
+        - name: consumer-cert
+          secret:
+            secretName: consumer-cert
+        - name: producer-cert
+          secret:
+            secretName: producer-cert
+
       containers:
       - name: web
         image: docker.io/traefik/whoami:latest

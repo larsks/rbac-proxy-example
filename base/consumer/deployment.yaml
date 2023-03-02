@@ -9,6 +9,14 @@ spec:
       serviceAccountName: consumer
       automountServiceAccountToken: true
       terminationGracePeriodSeconds: 0
+      volumes:
+        - name: consumer-cert
+          secret:
+            secretName: consumer-cert
+        - name: producer-cert
+          secret:
+            secretName: producer-cert
+
       containers:
       - name: consumer
         image: docker.io/alpine:latest
@@ -22,6 +30,11 @@ spec:
               - ALL
           readOnlyRootFilesystem: false
           runAsUser: 0
+        volumeMounts:
+          - name: consumer-cert
+            mountPath: /cert/consumer
+          - name: producer-cert
+            mountPath: /cert/producer
         command:
           - sh
           - -c
