@@ -3,5 +3,12 @@ kind: ClusterRole
 metadata:
   name: rbac-proxy-consumer
 rules:
+- apiGroups: ["security.openshift.io"]
+  resourceNames:
+    - anyuid
+  resources:
+    - securitycontextconstraints
+  verbs:
+    - use
 - nonResourceURLs: ["/example"]
   verbs: ["get"]

@@ -8,3 +8,5 @@ resources:
 - deployment.yaml
 - serviceaccount.yaml
 - consumer-cert.yaml
+- consumer-cr.yaml
+- consumer-crb.yaml

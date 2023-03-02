@@ -7,6 +7,9 @@ roleRef:
   kind: ClusterRole
   name: rbac-proxy-consumer
 subjects:
+- kind: User
+  name: consumer
+  apiGroup: rbac.authorization.k8s.io
 - kind: ServiceAccount
   name: consumer
   namespace: default

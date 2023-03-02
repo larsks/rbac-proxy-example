@@ -3,8 +3,6 @@ kind: Kustomization
 
 resources:
 - ../../base
-- consumer/consumer-cr.yaml
-- consumer/consumer-crb.yaml
 
 patches:
 - path: consumer/deployment_patch.yaml
