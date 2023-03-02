@@ -36,7 +36,7 @@ spec:
             until curl -isf \
                 ${HTTP_CACERT:+--cacert $HTTP_CACERT} \
                 ${HTTP_CERT:+--cert $HTTP_CERT} \
-                ${HTTP_KEY:+--KEY $HTTP_KEY} \
+                ${HTTP_KEY:+--key $HTTP_KEY} \
                 ${token:+-H "Authorization: Bearer $token"} \
                 "$HTTP_ENDPOINT"; do
               sleep 5
@@ -48,7 +48,7 @@ spec:
               curl -is \
                   ${HTTP_CACERT:+--cacert $HTTP_CACERT} \
                   ${HTTP_CERT:+--cert $HTTP_CERT} \
-                  ${HTTP_KEY:+--KEY $HTTP_KEY} \
+                  ${HTTP_KEY:+--key $HTTP_KEY} \
                   ${token:+-H "Authorization: Bearer $token"} \
                   "$HTTP_ENDPOINT_FORBIDDEN"
             fi
