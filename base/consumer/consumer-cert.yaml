@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: consumer-cert
+spec:
+  isCA: true
+  commonName: consumer
+  dnsNames:
+    - consumer
+    - consumer.rbac-proxy-example.svc
+    - consumer.rbac-proxy-example.svc.cluster.local
+  secretName: consumer-cert
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: internal-ca
+    kind: Issuer

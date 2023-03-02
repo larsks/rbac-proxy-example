@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer
+spec:
+  replicas: 1
+  template:
+    spec:
+      serviceAccountName: consumer
+      automountServiceAccountToken: true
+      containers:
+      - name: consumer
+        image: docker.io/alpine:latest
+        env:
+          - name: HTTP_ENDPOINT
+            value: http://producer:8080/example
+        command:
+          - sh
+          - -c
+          - |
+            apk add curl
+
+            if [ -n "$HTTP_TOKEN" ]; then
+              token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+            fi
+
+            echo "=== fetch /example ==="
+
+            until curl -isf \
+                ${HTTP_CACERT:+--cacert $HTTP_CACERT} \
+                ${HTTP_CERT:+--cert $HTTP_CERT} \
+                ${HTTP_KEY:+--KEY $HTTP_KEY} \
+                ${token:+-H "Authorization: Bearer $token"} \
+                "$HTTP_ENDPOINT"; do
+              sleep 5
+            done
+
+            if [ -n "$HTTP_ENDPOINT_FORBIDDEN" ]; then
+              echo "=== fetch /forbidden ==="
+
+              curl -is \
+                  ${HTTP_CACERT:+--cacert $HTTP_CACERT} \
+                  ${HTTP_CERT:+--cert $HTTP_CERT} \
+                  ${HTTP_KEY:+--KEY $HTTP_KEY} \
+                  ${token:+-H "Authorization: Bearer $token"} \
+                  "$HTTP_ENDPOINT_FORBIDDEN"
+            fi
+
+            echo "=== all done ==="
+
+            sleep inf

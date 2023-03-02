@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../base
+- consumer/consumer-cr.yaml
+- consumer/consumer-crb.yaml
+
+patches:
+- path: consumer/deployment_patch.yaml
+- path: producer/deployment_patch.yaml
