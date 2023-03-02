@@ -4,6 +4,14 @@ This repository contains two examples of using [`kube-rbac-proxy`][krp] to prote
 
 In both examples, a `producer` service offers an HTTP endpoint (`http://producer/example`). A `consumer` periodically reads from this endpoint. We use `kube-rbac-proxy` to authenticate the consumer and grant access to the resource.
 
+## Viewing the manifests
+
+To view the manifests without deploying them, use `kubectl kustomize`; for example, to view the `token-auth` example, run:
+
+```
+kubectl kustomize overlays/token-auth
+```
+
 ## Managing certificates
 
 This repository sets up an internal certificate authority using [cert-manager][]. This allows us to generate certificate on the fly that are trusted by both the `consumer` and the `producer`. This is effectively following the example [from the documentation on SelfSigned issuers][selfsigned].
